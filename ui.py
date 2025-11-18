@@ -1,6 +1,6 @@
 import dominate
 from dominate.tags import *
-
+import urllib.parse
 
 # Base is the "main page" shared by all pages
 # content is what will be in that page
@@ -20,8 +20,11 @@ def base(content, context):
 # Renders a simple HTML list with every todo inside
 def todos_list(todos, id):
     with ul(id=id) as t_list:
+        print(todos)
         for t in todos:
-            li(t)
+            with span():
+                li(t)
+                button("Delete", data_hx_post=f"/delete?item={urllib.parse.quote_plus(t)}",data_hx_target="#tl",data_hx_swap="outerHTML")
     return t_list
 
 
